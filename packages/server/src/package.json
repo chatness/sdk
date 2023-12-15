@@ -1,5 +1,5 @@
 {
-  "name": "@chatness/sdk",
+  "name": "@chatness/server",
   "version": "0.0.0",
   "dependencies": {},
   "types": "./index.d.ts",

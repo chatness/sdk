@@ -1,27 +1,31 @@
 {
-  "name": "sdk",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/sdk/src",
+  "name": "server",
+  "$schema": "../../server_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/server/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/sdk",
-        "main": "packages/sdk/src/index.ts",
-        "tsConfig": "packages/sdk/tsconfig.lib.json",
-        "project": "packages/sdk/src/package.json",
+        "outputPath": "dist/packages/server",
+        "main": "packages/server/src/index.ts",
+        "tsConfig": "packages/server/tsconfig.lib.json",
+        "project": "packages/server/src/package.json",
         "compiler": "tsc",
         "format": ["cjs", "esm"],
         "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
       }
     },
 
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node tools/scripts/publish.mjs sdk {args.v} {args.tag}"
+        "command": "node tools/scripts/publish.mjs node {args.v} {args.tag}"
       },
       "dependsOn": ["build"]
     },
@@ -29,14 +33,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/sdk/**/*.ts"]
+        "lintFilePatterns": ["packages/server/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/sdk/jest.config.ts",
+        "jestConfig": "packages/server/jest.config.ts",
         "passWithNoTests": true
       }
     }

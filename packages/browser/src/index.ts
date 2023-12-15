@@ -6,4 +6,4 @@
  * found in the LICENSE file at https://github.com/chatness/sdk/LICENSE
  */
 
-export * from './ChatnessNode';
+export * from './lib';

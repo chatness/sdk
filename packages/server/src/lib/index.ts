@@ -7,3 +7,4 @@
  */
 
 export * from './fetcher';
+export * from './Chatness';

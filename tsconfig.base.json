@@ -18,7 +18,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      "@chatness/sdk": ["packages/sdk/src/index.ts"]
+      "@chatness/server": ["packages/server/src/index.ts"],
+      "@chatness/browser": ["packages/browser/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,8 @@
+{
+  "name": "@chatness/browser",
+  "version": "0.0.0",
+  "dependencies": {},
+  "types": "./index.d.ts",
+  "module": "./index.js",
+  "main": "./index.cjs"
+}
