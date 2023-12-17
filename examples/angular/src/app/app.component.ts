@@ -11,6 +11,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { Chatness } from '@chatness/browser';
+
 @Component({
   standalone: true,
   selector: 'app',
@@ -242,5 +244,13 @@ export class AppComponent {
 
   ngOnDestroy() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const chat = new Chatness({
+      botId: '8gGSCa4B14',
+    });
+
+    chat.when.ready().then(() => {
+      chat.widget.open();
+    });
+  }
 }

@@ -13,7 +13,8 @@ if (typeof window !== 'undefined') {
 }
 
 const environment = {
-  API_URL: 'https://app.chatness.ai',
+  API_URL: 'https://api.chatness.ai',
+  // API_URL: 'http://localhost:1339',
 };
 
 export interface ClientParams {
@@ -42,6 +43,11 @@ export interface Contact {
   wid?: string;
   mid?: string;
 }
+
+export type ContactUpsert = {
+  index: number;
+  id: string;
+};
 
 export class Chatness {
   baseUrl = '';
@@ -78,16 +84,19 @@ export class Chatness {
       },
       upsert: (contacts: Contact[]) => {
         if (!contacts) throw new Error('Contacts required');
-        return fetcher(`${this.baseUrl}/bots/${this.botId}/contacts`, {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${this.orgToken}`,
-          },
-          body: {
-            data: contacts,
-          },
-          flatResponse: true,
-        });
+        return fetcher<ContactUpsert[]>(
+          `${this.baseUrl}/bots/${this.botId}/contacts`,
+          {
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${this.orgToken}`,
+            },
+            body: {
+              data: contacts,
+            },
+            flatResponse: true,
+          }
+        );
       },
       search: ({
         query,
