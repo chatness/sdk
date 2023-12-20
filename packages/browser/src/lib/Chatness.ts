@@ -15,17 +15,18 @@ export class Chatness {
   #cdnUrl = 'https://cdn.chatness.ai/scripts';
   // #cdnUrl = 'http://127.0.0.1:8080';
 
-  constructor({ botId }: { botId?: string } = {}) {
-    if (botId) {
-      // check if there's no script tag injected already
-      if (!document.querySelector(`script[id="chatness"]`)) {
-        const script = document.createElement('script');
-        script.src = `${this.#cdnUrl}/widget.mjs?bot=${botId}`;
-        script.id = 'chatness';
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
-      }
+  #botId: string | null;
+  #injectStyles: boolean;
+
+  constructor({
+    botId,
+    injectStyles,
+    cdnUrl,
+  }: { botId?: string; injectStyles?: boolean; cdnUrl?: string } = {}) {
+    this.#botId = botId || null;
+    this.#injectStyles = injectStyles === false ? false : true;
+    if (cdnUrl) {
+      this.#cdnUrl = cdnUrl;
     }
   }
 
@@ -40,6 +41,12 @@ export class Chatness {
       },
       close: () => {
         this.#widgetEl?.dispatchEvent(new CustomEvent('ChatnessWidgetClose'));
+      },
+      show: () => {
+        this.#widgetEl?.dispatchEvent(new CustomEvent('ChatnessWidgetShow'));
+      },
+      hide: () => {
+        this.#widgetEl?.dispatchEvent(new CustomEvent('ChatnessWidgetHide'));
       },
       message: ({ text }: { text: string }) => {
         this.#widgetEl?.dispatchEvent(
@@ -81,14 +88,26 @@ export class Chatness {
     };
   }
 
-  get when() {
-    return {
-      ready: () =>
-        new Promise((resolve) => {
-          this.#widgetEl?.addEventListener('ChatnessWhenReady', () => {
-            resolve(null);
-          });
-        }),
-    };
+  /**
+   * Attaches the Chatness widget script to the DOM
+   */
+  attach() {
+    if (!this.#botId) {
+      throw new Error(
+        'Bot ID is required when creating a new Chatness instance'
+      );
+    }
+    // check if there's no script tag injected already
+    if (!document.querySelector(`script[id="chatness"]`)) {
+      const script = document.createElement('script');
+      script.src = `${this.#cdnUrl}/widget.mjs?bot=${
+        this.#botId
+      }&injectStyles=${this.#injectStyles === false ? false : true}`;
+      script.id = 'chatness';
+      script.async = true;
+      script.defer = true;
+      // append to header to avoid blocking the page
+      document.head.appendChild(script);
+    }
   }
 }

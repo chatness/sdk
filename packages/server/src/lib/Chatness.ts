@@ -14,7 +14,6 @@ if (typeof window !== 'undefined') {
 
 const environment = {
   API_URL: 'https://api.chatness.ai',
-  // API_URL: 'http://localhost:1339',
 };
 
 export interface ClientParams {
@@ -73,7 +72,7 @@ export class Chatness {
     return {
       create: (contact: Contact) => {
         if (!contact) throw new Error('Contact is required');
-        return fetcher(`${this.baseUrl}/bots/${this.botId}/contacts`, {
+        return fetcher<Contact>(`${this.baseUrl}/bots/${this.botId}/contacts`, {
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${this.orgToken}`,

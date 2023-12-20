@@ -1,8 +1,9 @@
 {
   "name": "@chatness/server",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "dependencies": {},
   "types": "./index.d.ts",
   "module": "./index.js",
-  "main": "./index.cjs"
+  "main": "./index.cjs",
+  "type": "module"
 }
