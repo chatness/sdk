@@ -11,20 +11,19 @@ if (typeof window === 'undefined') {
 }
 
 export class Chatness {
-  #selector = 'cha-widget:not([ng-reflect-inline="true"])';
+  #selector = 'chat-widget';
   #cdnUrl = 'https://cdn.chatness.ai/scripts';
-  // #cdnUrl = 'http://127.0.0.1:8080';
 
   #botId: string | null;
-  #injectStyles: boolean;
 
   constructor({
     botId,
-    injectStyles,
     cdnUrl,
-  }: { botId?: string; injectStyles?: boolean; cdnUrl?: string } = {}) {
+  }: {
+    botId?: string;
+    cdnUrl?: string;
+  } = {}) {
     this.#botId = botId || null;
-    this.#injectStyles = injectStyles === false ? false : true;
     if (cdnUrl) {
       this.#cdnUrl = cdnUrl;
     }
@@ -100,13 +99,10 @@ export class Chatness {
     // check if there's no script tag injected already
     if (!document.querySelector(`script[id="chatness"]`)) {
       const script = document.createElement('script');
-      script.src = `${this.#cdnUrl}/widget.mjs?bot=${
-        this.#botId
-      }&injectStyles=${this.#injectStyles === false ? false : true}`;
-      script.id = 'chatness';
+      script.src = `${this.#cdnUrl}/widget.mjs?bot=${this.#botId}`;
       script.async = true;
       script.defer = true;
-      // append to header to avoid blocking the page
+
       document.head.appendChild(script);
     }
   }
