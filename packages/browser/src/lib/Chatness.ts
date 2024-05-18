@@ -47,11 +47,12 @@ export class Chatness {
       hide: () => {
         this.#widgetEl?.dispatchEvent(new CustomEvent('ChatnessWidgetHide'));
       },
-      message: ({ text }: { text: string }) => {
+      message: ({ text, prefill }: { text: string; prefill?: boolean }) => {
         this.#widgetEl?.dispatchEvent(
           new CustomEvent('ChatnessWidgetMessage', {
             detail: {
               text,
+              prefill,
             },
           })
         );
